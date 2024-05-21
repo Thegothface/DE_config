@@ -1,0 +1,285 @@
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/polybar/polybar
+;
+;   The README contains a lot of information
+;
+;==========================================================
+
+
+
+[colors]
+#black = #263238
+#white = #D8DEE9
+background = #222
+background-alt = #444
+foreground = #dfdfdf
+primary = #646464
+secondary = #646464
+alert = #646464
+disabled = #c0c0c0
+red = #BF616A
+red1 = #BF3B48
+green = #94AD7D
+green1 = #70AD37
+blue = #5E81AC
+blue1 = #3C6EAC
+cyan = #7AACBA
+cyan1 = #56A4BA
+violet = #B48EAD
+violet1 = #B46AA6
+orange = #D08770
+orange1 = #D06847
+yellow = #CFB074
+yellow1 = #CF9B36
+focus = #8C8C8C
+focus1 = #757575
+unfocus = #1A2328
+unfocus1 = #101010
+
+
+[bar/example]
+width = 100%
+height = 24pt
+radius = 6
+
+; dpi = 96
+
+background = ${colors.black}
+foreground = ${colors.white}
+
+line-size = 4pt
+
+border-size = 0pt
+border-color = #00000000
+
+padding-left = 0
+padding-right = 1
+
+module-margin = 1
+
+separator = |
+separator-foreground = ${colors.disabled}
+
+#font-0 = TerminessTTF Nerd Font:weight=bold:size=10;2
+font-0 = iosevka:antialias=true;2
+
+############################MODULES OUTPUT##########
+modules-left = xworkspaces i3
+modules-right = xkeyboard wlan eth memory cpu date
+modules-center = xwindow
+####################################################
+
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+enable-ipc = true
+
+; wm-restack = generic
+; wm-restack = bspwm
+; wm-restack = i3
+
+; override-redirect = true
+
+[module/i3]
+type = internal/i3
+format = <label-state> <label-mode>
+index-sort = true
+wrapping-scroll = false
+pin-workspaces = true
+
+label-mode-padding = 2
+label-mode-foreground = #000
+label-mode-background = ${colors.focus}
+
+; focused = Active workspace on focused monitor
+label-focused = %index%
+label-focused-background = ${colors.focus}
+label-focused-foreground = ${colors.black}
+label-focused-underline= ${colors.focus1}
+label-focused-padding = 2
+
+; unfocused = Inactive workspace on any monitor
+label-unfocused = %index%
+label-unfocused-padding = 2
+label-unfocused-background = ${colors.unfocus}
+label-unfocused-underline= ${colors.unfocus1}
+
+; visible = Active workspace on unfocused monitor
+label-visible = %index%
+label-visible-background = ${self.label-focused-background}
+label-visible-underline = ${self.label-focused-underline}
+label-visible-padding = ${self.label-focused-padding}
+
+; urgent = Workspace with urgency hint set
+label-urgent = %index%
+label-urgent-background = #5f5f5f
+label-urgent-padding = 2
+
+
+[module/mpd]
+type = internal/mpd
+host = 127.0.0.1
+port = 6600
+format-online = <toggle> <label-song>
+;alt icons = 
+format-online-background = ${colors.blue}
+format-online-foreground = ${colors.black}
+format-online-padding = 1
+icon-play = 
+;icon-prev = 
+;icon-next = 
+icon-pause = 
+label-song =  "%{A1:mpc next && mpdfy:}%title:0:40:...%%{A}"
+label-song-ellipsis = true
+;bar-progress-width = 13
+;bar-progress-indicator = ⊙
+;bar-progress-fill = ━
+;bar-progress-empty = ─
+label-offline = mpd is offline
+format-online-underline = ${colors.blue1}
+format-offline-underline = ${colors.white}
+
+
+[module/systray]
+type = internal/tray
+
+format-margin = 8pt
+tray-spacing = 16pt
+
+[module/xworkspaces]
+type = internal/xworkspaces
+
+label-active = %name%
+label-active-background = ${colors.background-alt}
+label-active-underline= ${colors.primary}
+label-active-padding = 1
+
+label-occupied = %name%
+label-occupied-padding = 1
+
+label-urgent = %name%
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 1
+
+label-empty = %name%
+label-empty-foreground = ${colors.disabled}
+label-empty-padding = 1
+
+[module/xwindow]
+type = internal/xwindow
+label = %title:0:60:...%
+
+[module/filesystem]
+type = internal/fs
+interval = 25
+
+mount-0 = /
+
+label-mounted = %{F#F0C674}%mountpoint%%{F-} %percentage_used%%
+
+label-unmounted = %mountpoint% not mounted
+label-unmounted-foreground = ${colors.disabled}
+
+#[module/pulseaudio]
+#type = internal/pulseaudio
+
+#format-volume-prefix = "VOL "
+#format-volume-prefix-foreground = ${colors.primary}
+#format-volume = <label-volume>
+
+#label-volume = %percentage%%
+
+#label-muted = muted
+#label-muted-foreground = ${colors.disabled}
+
+
+[module/xkeyboard]
+type = internal/xkeyboard
+blacklist-0 = num lock
+
+label-layout = %layout%
+label-layout-foreground = ${colors.orange}
+
+label-indicator-padding = 2
+label-indicator-margin = 1
+label-indicator-foreground = ${colors.background}
+label-indicator-background = ${colors.secondary}
+
+[module/memory]
+type = internal/memory
+; Seconds to sleep between updates
+; Default: 1
+interval = 3
+format = <label>
+label = "  %gb_used% "
+format-foreground = ${colors.yellow}
+format-background = ${colors.b;acl}
+format-underline = ${colors.black}
+
+[module/cpu]
+type = internal/cpu
+interval = 2
+format = <label>
+label = "﬙ %percentage:2%%"
+format-foreground = ${colors.yellow}
+format-background = ${colors.black}
+format-padding = 1
+format-underline = ${colors.black}
+
+[network-base]
+type = internal/network
+interval = 5
+format-connected = <label-connected>
+format-disconnected = <label-disconnected>
+label-disconnected = %{F#F0C674}%ifname%%{F#707880} disconnected
+
+[module/wlan]
+inherit = network-base
+interface-type = wireless
+label-connected = %{F#F0C674}%ifname%%{F-} %essid% %local_ip%
+
+[module/eth]
+inherit = network-base
+interface-type = wired
+label-connected = %{F#F0C674}%ifname%%{F-} %local_ip%
+
+
+########################LAN######################
+
+
+
+########################LAN######################
+
+
+########################DATE#####################
+
+[module/date]
+type = internal/date
+interval = 1
+
+date = %d-%m-%Y
+time = %H:%M
+label = "%{A1:gsimplecal:}  %date%   %time% %{A}"
+format-foreground = ${colors.yellow}
+format-background = ${colors.black}
+format-underline = ${colors.black}
+
+########################DATE######################
+
+[settings]
+screenchange-reload = true
+pseudo-transparency = true
+
+; vim:ft=dosini
